@@ -2,3 +2,6 @@ _backup-*/
 research_notes/
 .vercel/
 node_modules/
+
+.vercel
+.env*
