@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180">
+  <!-- Two speech bubbles and a vote: the advice board -->
+  <path d="M30 170V86c0-42 40-72 90-80 50 8 90 38 90 80v84z" fill="#D5EBE5"/>
+  <ellipse cx="120" cy="168" rx="86" ry="7" fill="#0D5C55" opacity=".14"/>
+  <path d="M40 40h104a12 12 0 0 1 12 12v44a12 12 0 0 1-12 12H76l-22 18 4-18H40a12 12 0 0 1-12-12V52a12 12 0 0 1 12-12z" fill="#FFFFFF" stroke="#102A2C" stroke-width="3" stroke-linejoin="round"/>
+  <rect x="44" y="58" width="80" height="7" rx="3.5" fill="#102A2C"/>
+  <rect x="44" y="74" width="96" height="5" rx="2.5" fill="#9CCFC4"/>
+  <rect x="44" y="86" width="64" height="5" rx="2.5" fill="#9CCFC4"/>
+  <path d="M120 98h76a12 12 0 0 1 12 12v30a12 12 0 0 1-12 12h-6l2 16-20-16h-52a12 12 0 0 1-12-12v-30a12 12 0 0 1 12-12z" fill="#0D5C55" stroke="#102A2C" stroke-width="3" stroke-linejoin="round"/>
+  <rect x="124" y="114" width="60" height="6" rx="3" fill="#FFFFFF"/>
+  <rect x="124" y="128" width="44" height="5" rx="2.5" fill="#9CCFC4"/>
+  <g>
+    <circle cx="196" cy="48" r="20" fill="#F6A823" stroke="#102A2C" stroke-width="3"/>
+    <path d="M187 52l9-10 9 10" fill="none" stroke="#102A2C" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <g fill="#E2603F"><circle cx="30" cy="132" r="4"/></g>
+</svg>

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180">
+  <!-- Idle money: a wallet with notes going nowhere, beside a jar that is filling up -->
+  <path d="M30 170V86c0-42 40-72 90-80 50 8 90 38 90 80v84z" fill="#D5EBE5"/>
+  <ellipse cx="120" cy="168" rx="86" ry="7" fill="#0D5C55" opacity=".14"/>
+  <g transform="rotate(-8 84 112)">
+    <rect x="48" y="78" width="78" height="14" rx="3" fill="#9CCFC4" stroke="#102A2C" stroke-width="3"/>
+    <rect x="40" y="88" width="94" height="66" rx="10" fill="#0D5C55" stroke="#102A2C" stroke-width="3"/>
+    <rect x="104" y="108" width="34" height="26" rx="7" fill="#102A2C"/>
+    <circle cx="117" cy="121" r="5" fill="#F6A823"/>
+  </g>
+  <g fill="none" stroke="#E2603F" stroke-width="3" stroke-linecap="round">
+    <path d="M60 52c4-6 10-6 14 0s10 6 14 0"/>
+    <path d="M70 40l-6-8M84 38l2-9"/>
+  </g>
+  <rect x="152" y="70" width="52" height="86" rx="12" fill="#FFFFFF" stroke="#102A2C" stroke-width="3"/>
+  <rect x="148" y="60" width="60" height="14" rx="5" fill="#F6A823" stroke="#102A2C" stroke-width="3"/>
+  <path d="M155 116h46v28a9 9 0 0 1-9 9h-28a9 9 0 0 1-9-9z" fill="#9CCFC4"/>
+  <circle cx="168" cy="132" r="7" fill="#F6A823" stroke="#102A2C" stroke-width="2.5"/>
+  <circle cx="188" cy="138" r="7" fill="#F6A823" stroke="#102A2C" stroke-width="2.5"/>
+  <circle cx="178" cy="118" r="7" fill="#F6A823" stroke="#102A2C" stroke-width="2.5"/>
+  <path d="M178 26v26M168 42l10 10 10-10" fill="none" stroke="#0D5C55" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

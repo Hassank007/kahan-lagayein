@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kahan Lagayein? Where to invest your savings in Pakistan</title>
+  <meta name="description" content="Enter your amount and see how Pakistanis commonly split it across National Savings, T-bills, funds, PSX shares, gold and buildings, in plain words.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Kahan Lagayein?">
+  <meta property="og:title" content="Kahan Lagayein? Where should your savings go?">
+  <meta property="og:description" content="Type your amount and see where it can go in Pakistan: National Savings, T-bills, funds, PSX, gold. How much it can grow, what is safe, in plain words. Free, no sign-up.">
+  <meta property="og:url" content="https://kahan-lagayein.vercel.app/">
+  <meta property="og:image" content="https://kahan-lagayein.vercel.app/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#F3F4EE">
+  <script>try { if (localStorage.getItem("kl.theme") === "dark") document.documentElement.dataset.theme = "dark"; } catch (e) {}</script>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Nastaliq+Urdu:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=20261031e">
+</head>
+<body>
+  <a class="skip" href="#planner">Skip to the planner</a>
+
+  <header class="top" id="top">
+    <div class="shell top-inner">
+      <a class="brand" href="#plan">
+        <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+          <rect width="32" height="32" rx="9" fill="var(--brand)"/>
+          <path d="M16 4.5c-5.6 0-10 4.3-10 9.7 0 7 10 13.8 10 13.8s10-6.8 10-13.8c0-5.4-4.4-9.7-10-9.7z" fill="#F6A823"/>
+          <circle cx="16" cy="14.2" r="5.6" fill="var(--brand)"/>
+          <path d="M13.2 16.4l2.1-2.4 1.5 1.4 2.2-2.6" fill="none" stroke="#F6A823" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="brand-text">
+          <span class="brand-name">Kahan Lagayein<span class="brand-q">?</span></span>
+          <span class="brand-ur" lang="ur">پیسہ کہاں لگائیں</span>
+        </span>
+      </a>
+
+      <nav class="nav-desktop" aria-label="Main">
+        <ul>
+          <li><a href="#plan">Planner</a></li>
+          <li><a href="#ages">By age</a></li>
+          <li><a href="#idle">Idle money</a></li>
+          <li><a href="#facts">Myths vs data</a></li>
+          <li><a href="#stocks">PSX</a></li>
+          <li><a class="nav-scam" href="#scam"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-shield"/></svg>Scam check</a></li>
+        </ul>
+      </nav>
+
+      <div class="top-actions">
+        <button class="icon-btn theme-btn" type="button" id="theme-btn" aria-pressed="false">
+          <svg class="ic ic-moon" aria-hidden="true"><use href="assets/icons.svg#i-moon"/></svg>
+          <svg class="ic ic-sun" aria-hidden="true"><use href="assets/icons.svg#i-sun"/></svg>
+          <span class="sr-only">Dark mode</span>
+        </button>
+        <button class="menu-btn" type="button" aria-expanded="false" aria-controls="drawer" id="menu-btn">
+          <svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-menu"/></svg>
+          <span>Menu</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <dialog class="drawer" id="drawer" aria-labelledby="drawer-title">
+    <div class="drawer-head">
+      <p class="drawer-title" id="drawer-title">Menu</p>
+      <button class="icon-btn" type="button" id="drawer-close">
+        <svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-close"/></svg>
+        <span class="sr-only">Close menu</span>
+      </button>
+    </div>
+    <nav aria-label="Main, mobile">
+      <ul class="drawer-list">
+        <li><a href="#plan"><span class="drawer-ic"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-coins"/></svg></span><span><b>Planner</b><small>Split your amount, see the result</small></span></a></li>
+        <li><a href="#idle"><span class="drawer-ic"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-clock"/></svg></span><span><b>Idle money</b><small>What cash in your account could earn</small></span></a></li>
+        <li><a href="#ages"><span class="drawer-ic"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-user"/></svg></span><span><b>Start at any age</b><small>Teens to 60+: what you can do</small></span></a></li>
+        <li><a href="#rates"><span class="drawer-ic"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-percent"/></svg></span><span><b>Today's rates</b><small>Policy rate, inflation, CDNS, gold</small></span></a></li>
+        <li><a href="#facts"><span class="drawer-ic"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-search"/></svg></span><span><b>Myths vs data</b><small>What people say, checked</small></span></a></li>
+        <li><a href="#stocks"><span class="drawer-ic"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-trend"/></svg></span><span><b>PSX snapshot</b><small>Dividend stocks and ETFs</small></span></a></li>
+        <li><a href="#abroad"><span class="drawer-ic"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-globe"/></svg></span><span><b>Foreign shares</b><small>Apple, Tesla: what is allowed</small></span></a></li>
+        <li><a href="#advice"><span class="drawer-ic"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-chat"/></svg></span><span><b>Advice board</b><small>Vote on what holds up</small></span></a></li>
+        <li><a href="#words"><span class="drawer-ic"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-info"/></svg></span><span><b>Money words</b><small>Simple meanings, English and Urdu</small></span></a></li>
+        <li><a href="#scam"><span class="drawer-ic warn"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-shield"/></svg></span><span><b>Scam check</b><small>Paste a "scheme" and test it</small></span></a></li>
+      </ul>
+    </nav>
+    <p class="drawer-foot">Education, not licensed advice.</p>
+  </dialog>
+
+  <main>
+    <!-- ===================== HERO + PLANNER ===================== -->
+    <section class="hero" id="plan" aria-labelledby="hero-title">
+      <div class="shell hero-grid">
+        <div class="hero-panel">
+          <p class="hero-ur" lang="ur">پیسہ کہاں لگائیں؟</p>
+          <h1 id="hero-title">Where should your savings go?</h1>
+          <p class="lede">Type in your amount. See where it can go, <strong>how much it can grow</strong>, and what is safe or risky. Plain words, real rupees.</p>
+
+          <div class="hero-art" aria-hidden="true">
+            <svg viewBox="0 0 520 400" focusable="false">
+              <!-- Mughal-style arch window -->
+              <path d="M58 400V196c0-80 82-140 202-168 120 28 202 88 202 168v204z" fill="var(--art-arch)"/>
+              <path d="M84 400V204c0-66 70-118 176-142 106 24 176 76 176 142v196" fill="none" stroke="var(--art-line)" stroke-width="2" stroke-dasharray="2 9" stroke-linecap="round"/>
+              <!-- truck-art flowers -->
+              <g class="art-flower" transform="translate(112 112)">
+                <g fill="#E2603F"><ellipse rx="5" ry="11" transform="translate(0 -9)"/><ellipse rx="5" ry="11" transform="rotate(45) translate(0 -9)"/><ellipse rx="5" ry="11" transform="rotate(90) translate(0 -9)"/><ellipse rx="5" ry="11" transform="rotate(135) translate(0 -9)"/><ellipse rx="5" ry="11" transform="rotate(180) translate(0 -9)"/><ellipse rx="5" ry="11" transform="rotate(225) translate(0 -9)"/><ellipse rx="5" ry="11" transform="rotate(270) translate(0 -9)"/><ellipse rx="5" ry="11" transform="rotate(315) translate(0 -9)"/></g>
+                <circle r="6" fill="#F6A823"/>
+              </g>
+              <g class="art-flower" transform="translate(448 262) scale(.7)">
+                <g fill="#2F5DA8"><ellipse rx="5" ry="11" transform="translate(0 -9)"/><ellipse rx="5" ry="11" transform="rotate(45) translate(0 -9)"/><ellipse rx="5" ry="11" transform="rotate(90) translate(0 -9)"/><ellipse rx="5" ry="11" transform="rotate(135) translate(0 -9)"/><ellipse rx="5" ry="11" transform="rotate(180) translate(0 -9)"/><ellipse rx="5" ry="11" transform="rotate(225) translate(0 -9)"/><ellipse rx="5" ry="11" transform="rotate(270) translate(0 -9)"/><ellipse rx="5" ry="11" transform="rotate(315) translate(0 -9)"/></g>
+                <circle r="6" fill="#F6A823"/>
+              </g>
+              <!-- ground -->
+              <ellipse cx="262" cy="388" rx="196" ry="13" fill="#102A2C" opacity=".13"/>
+              <!-- floating growth card -->
+              <g class="art-card">
+                <rect x="352" y="70" width="126" height="84" rx="14" fill="#FFFFFF" stroke="#102A2C" stroke-width="3"/>
+                <path d="M370 132l22-20 18 10 28-30 22 8" fill="none" stroke="#0D5C55" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="460" cy="100" r="7" fill="#F6A823" stroke="#102A2C" stroke-width="2.5"/>
+                <rect x="368" y="84" width="40" height="7" rx="3.5" fill="#102A2C"/>
+              </g>
+              <!-- signpost -->
+              <rect x="250" y="112" width="15" height="282" rx="5" fill="#102A2C"/>
+              <circle cx="257.5" cy="110" r="11" fill="#F6A823" stroke="#102A2C" stroke-width="3"/>
+              <g class="art-board">
+                <path d="M146 136h124v46H146l-26-23z" fill="#0D5C55" stroke="#102A2C" stroke-width="3" stroke-linejoin="round"/>
+                <text x="200" y="166" text-anchor="middle" fill="#FFFFFF" font-family="Manrope, Arial, sans-serif" font-weight="700" font-size="20">Savings</text>
+              </g>
+              <g class="art-board">
+                <path d="M246 196h124l26 23-26 23H246z" fill="#2F5DA8" stroke="#102A2C" stroke-width="3" stroke-linejoin="round"/>
+                <text x="314" y="226" text-anchor="middle" fill="#FFFFFF" font-family="Manrope, Arial, sans-serif" font-weight="700" font-size="20">PSX</text>
+              </g>
+              <g class="art-board">
+                <path d="M152 256h118v46H152l-26-23z" fill="#F6A823" stroke="#102A2C" stroke-width="3" stroke-linejoin="round"/>
+                <text x="203" y="286" text-anchor="middle" fill="#102A2C" font-family="Manrope, Arial, sans-serif" font-weight="700" font-size="20">Gold</text>
+              </g>
+              <circle cx="257.5" cy="159" r="3.5" fill="#F6A823"/><circle cx="257.5" cy="219" r="3.5" fill="#F6A823"/><circle cx="257.5" cy="279" r="3.5" fill="#F6A823"/>
+              <!-- rupee notes -->
+              <g transform="rotate(-8 140 352)">
+                <rect x="72" y="330" width="138" height="56" rx="8" fill="#7DB98A" stroke="#102A2C" stroke-width="3"/>
+              </g>
+              <g transform="rotate(4 150 350)">
+                <rect x="80" y="322" width="138" height="56" rx="8" fill="#A9D8A8" stroke="#102A2C" stroke-width="3"/>
+                <rect x="90" y="332" width="118" height="36" rx="5" fill="none" stroke="#2E6B47" stroke-width="2"/>
+                <circle cx="149" cy="350" r="12" fill="none" stroke="#2E6B47" stroke-width="2.5"/>
+                <text x="149" y="355" text-anchor="middle" fill="#2E6B47" font-family="Arial, sans-serif" font-weight="700" font-size="13">Rs</text>
+              </g>
+              <!-- coins + sprout -->
+              <g>
+                <ellipse cx="350" cy="380" rx="34" ry="10" fill="#C98512" stroke="#102A2C" stroke-width="3"/>
+                <rect x="316" y="362" width="68" height="18" fill="#F6A823"/>
+                <path d="M316 362v18M384 362v18" stroke="#102A2C" stroke-width="3"/>
+                <ellipse cx="350" cy="362" rx="34" ry="10" fill="#F6A823" stroke="#102A2C" stroke-width="3"/>
+                <ellipse cx="354" cy="350" rx="34" ry="10" fill="#C98512" stroke="#102A2C" stroke-width="3"/>
+                <rect x="320" y="334" width="68" height="16" fill="#F6A823"/>
+                <path d="M320 334v16M388 334v16" stroke="#102A2C" stroke-width="3"/>
+                <ellipse cx="354" cy="334" rx="34" ry="10" fill="#FFC955" stroke="#102A2C" stroke-width="3"/>
+                <g class="art-sprout">
+                  <path d="M354 332c0-18 2-30 6-42" fill="none" stroke="#0D5C55" stroke-width="5" stroke-linecap="round"/>
+                  <path d="M359 296c-18-2-28-12-30-26 18 0 28 10 30 26z" fill="#4E9E90" stroke="#102A2C" stroke-width="3" stroke-linejoin="round"/>
+                  <path d="M360 304c14-6 26-4 34 6-12 8-26 6-34-6z" fill="#0D5C55" stroke="#102A2C" stroke-width="3" stroke-linejoin="round"/>
+                </g>
+              </g>
+              <!-- percent badge -->
+              <g class="art-badge">
+                <circle cx="96" cy="216" r="28" fill="#E2603F" stroke="#102A2C" stroke-width="3"/>
+                <path d="M84 230l24-28" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
+                <circle cx="86" cy="206" r="5" fill="#FFFFFF"/><circle cx="106" cy="226" r="5" fill="#FFFFFF"/>
+              </g>
+            </svg>
+          </div>
+        </div>
+
+        <form class="planner" id="planner" novalidate aria-labelledby="planner-title" tabindex="-1">
+          <h2 class="planner-title" id="planner-title">Plan your money</h2>
+
+          <div class="field amount-field">
+            <label for="amount">How much do you want to invest?</label>
+            <div class="amount-wrap">
+              <span class="amount-cur" aria-hidden="true">Rs</span>
+              <input id="amount" name="amount" inputmode="numeric" autocomplete="off" spellcheck="false" value="25,00,000" aria-describedby="amount-words amount-hint">
+            </div>
+            <p id="amount-words" class="amount-words" aria-live="polite">25 lakh</p>
+            <div class="chips" role="group" aria-label="Quick amounts">
+              <button type="button" data-amt="500000">5 lakh</button>
+              <button type="button" data-amt="1000000">10 lakh</button>
+              <button type="button" data-amt="2500000">25 lakh</button>
+              <button type="button" data-amt="10000000">1 crore</button>
+            </div>
+            <p id="amount-hint" class="hint">Type a number, or words like "25 lakh" or "1.5 crore".</p>
+            <p id="amount-error" class="error" hidden><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-alert"/></svg>Enter an amount of at least Rs 10,000.</p>
+          </div>
+
+          <fieldset class="seg">
+            <legend>When might you need this money?</legend>
+            <div class="seg-opts">
+              <label><input type="radio" name="horizon" value="0.5"><span>Within a year</span></label>
+              <label><input type="radio" name="horizon" value="2"><span>1-3 years</span></label>
+              <label><input type="radio" name="horizon" value="4" checked><span>3-5 years</span></label>
+              <label><input type="radio" name="horizon" value="7"><span>5+ years</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="seg">
+            <legend>What do you want from it?</legend>
+            <div class="seg-opts">
+              <label><input type="radio" name="goal" value="income"><span>Monthly income</span></label>
+              <label><input type="radio" name="goal" value="grow" checked><span>Grow it</span></label>
+              <label><input type="radio" name="goal" value="park"><span>Keep it safe and ready</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="seg">
+            <legend>Say your Rs 100 became Rs 80 in a bad year. You would…</legend>
+            <div class="seg-opts">
+              <label><input type="radio" name="risk" value="low"><span>Panic. Keep it safe.</span></label>
+              <label><input type="radio" name="risk" value="medium" checked><span>Worry, but wait</span></label>
+              <label><input type="radio" name="risk" value="high"><span>Buy more</span></label>
+            </div>
+          </fieldset>
+
+          <fieldset class="checks">
+            <legend>About you</legend>
+            <label><input type="checkbox" name="halal"><span>Halal only (Islamic options, no interest)</span></label>
+            <label><input type="checkbox" name="filer" checked><span>I file a tax return every year (a <span data-term="filer">"filer"</span>). Filers pay about half the tax.</span></label>
+            <label><input type="checkbox" name="minor" id="minor"><span>I'm under 18</span></label>
+            <label><input type="checkbox" name="senior"><span>Aged 60+, widow, or disabled (or investing for someone who is)</span></label>
+            <label><input type="checkbox" name="pensioner"><span>Retired pensioner</span></label>
+            <label><input type="checkbox" name="overseas" id="overseas"><span>Overseas Pakistani (Roshan Digital Account)</span></label>
+            <div class="field fx-field" id="fx-field" hidden>
+              <label for="currency">Currency you earn in</label>
+              <select id="currency" name="currency">
+                <option value="USD">US dollar ($)</option>
+                <option value="AED">UAE dirham (AED)</option>
+                <option value="SAR">Saudi riyal (SAR)</option>
+                <option value="GBP">British pound (£)</option>
+              </select>
+            </div>
+          </fieldset>
+
+          <button class="cta" type="submit">Show my plan<svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-arrow-right"/></svg></button>
+          <p class="planner-note"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-shield"/></svg><span>This helps you learn. It is not personal advice. No sign-up, nothing to buy, and your answers stay on your device.</span></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- ===================== RESULTS ===================== -->
+    <section class="results" id="results" aria-labelledby="results-title" tabindex="-1" hidden>
+      <div class="shell">
+        <div class="res-head">
+          <h2 id="results-title">Your money plan</h2>
+          <p class="results-sub" id="results-sub"></p>
+        </div>
+
+        <div class="res-top">
+          <figure class="card donut-card">
+            <div class="donut-wrap" id="donut"></div>
+            <figcaption>
+              <h3 class="card-h">Where it goes</h3>
+              <ul class="legend" id="legend"></ul>
+            </figcaption>
+          </figure>
+
+          <div class="res-right">
+            <div class="card summary-card">
+              <p class="statement" id="statement" aria-live="polite"></p>
+              <dl class="kpis" id="kpis"></dl>
+            </div>
+
+            <div class="card chart-card">
+              <h3 class="card-h" id="chart-title">How your money grows</h3>
+              <p class="card-sub" id="chart-sub"></p>
+              <div class="growth" id="growth"></div>
+              <ul class="chart-key" id="chart-key"></ul>
+              <div class="sr-only" id="growth-table"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="risks" id="risks">
+          <h3 class="block-h">Before you act</h3>
+          <dl class="stat-tiles" id="stats"></dl>
+          <ul class="warnings" id="warnings"></ul>
+        </div>
+
+        <h3 class="block-h">Where each part goes</h3>
+        <ol class="lines" id="lines"></ol>
+
+        <div class="compare" id="compare"></div>
+
+        <div class="matched">
+          <h3 class="block-h">What people advise for situations like yours</h3>
+          <ul class="post-list" id="matched-posts"></ul>
+        </div>
+        <p class="disclaimer"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-info"/></svg><span><strong>This is to help you learn. It is not personal advice.</strong> The plan is a simple example built from your answers and public numbers. It does not tell you to buy any product. Funds, shares, gold and REITs can go down as well as up, and what happened before may not happen again. Before you buy, read the product's papers, or talk to an adviser licensed by SECP (the government body that watches investment companies).</span></p>
+      </div>
+    </section>
+
+    <!-- ===================== IDLE MONEY ===================== -->
+    <section class="idle" id="idle" aria-labelledby="idle-title">
+      <div class="shell">
+        <div class="sec-head">
+          <img class="spot" src="assets/spot-idle.svg" alt="" width="240" height="180">
+          <div>
+            <h2 id="idle-title">Money just sitting there?</h2>
+            <p class="section-lede">Most savings in Pakistan sit in current accounts, wallets or cash at home, earning nothing. See what the same money could earn somewhere you can still take it out in a day or two.</p>
+          </div>
+        </div>
+        <div class="idle-grid">
+          <form class="idle-form card" id="idle-form" novalidate>
+            <div class="field amount-field">
+              <label for="idle-amount">How much is sitting idle?</label>
+              <div class="amount-wrap">
+                <span class="amount-cur" aria-hidden="true">Rs</span>
+                <input id="idle-amount" class="amount-input" inputmode="numeric" autocomplete="off" spellcheck="false" value="5,00,000" aria-describedby="idle-words">
+              </div>
+              <p id="idle-words" class="amount-words">5 lakh</p>
+              <p id="idle-error" class="error" hidden><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-alert"/></svg>Enter an amount of at least Rs 1,000.</p>
+            </div>
+            <div class="field">
+              <label for="idle-where">Where is it now?</label>
+              <select id="idle-where" name="where">
+                <option value="current">Current account (no profit)</option>
+                <option value="wallet">Easypaisa, JazzCash or other wallet</option>
+                <option value="cash">Cash at home</option>
+                <option value="savings">Bank savings account</option>
+              </select>
+            </div>
+            <fieldset class="seg">
+              <legend>For how long?</legend>
+              <div class="seg-opts">
+                <label><input type="radio" name="years" value="1" checked><span>1 year</span></label>
+                <label><input type="radio" name="years" value="3"><span>3 years</span></label>
+                <label><input type="radio" name="years" value="5"><span>5 years</span></label>
+              </div>
+            </fieldset>
+            <fieldset class="checks">
+              <legend class="sr-only">About you</legend>
+              <label><input type="checkbox" name="halal"><span>Halal options only</span></label>
+              <label><input type="checkbox" name="filer" checked><span>I'm a tax filer</span></label>
+            </fieldset>
+            <button class="cta" type="submit">Show what it could earn<svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-arrow-right"/></svg></button>
+          </form>
+          <div class="idle-result card" id="idle-result" aria-live="polite"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== ANY AGE ===================== -->
+    <section class="ages" id="ages" aria-labelledby="ages-title">
+      <div class="shell">
+        <div class="sec-head">
+          <img class="spot" src="assets/spot-ages.svg" alt="" width="240" height="180">
+          <div>
+            <h2 id="ages-title">Start at any age</h2>
+            <p class="section-lede">Find your age. See what you can do and one easy first step. Only official, government-checked options.</p>
+          </div>
+        </div>
+        <ul class="age-list">
+          <li class="age-card a-teen">
+            <div class="age-top">
+              <span class="age-ic"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-user"/></svg></span>
+              <div><p class="age-badge">13 to 17</p><h3>Teens</h3></div>
+            </div>
+            <ul class="age-can" aria-label="You can"><li><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-check"/></svg><span>Open <strong data-term="teen">your own bank account or mobile wallet</strong>, with a debit card</span></li><li><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-check"/></svg><span>Own shares in a <strong data-term="minor">minor account</strong> that a parent runs for you</span></li><li><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-check"/></svg><span>Ask a parent to save in <strong data-term="nss">National Savings</strong> for you</span></li></ul>
+            <p class="age-need"><strong>You need:</strong> B-Form or Juvenile Card. A parent's CNIC for a minor account.</p>
+            <p class="age-step"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-arrow-right"/></svg><span><strong>First step:</strong> Open your own account and save the same small amount every month.</span></p>
+          </li>
+          <li class="age-card a-young">
+            <div class="age-top">
+              <span class="age-ic"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-phone"/></svg></span>
+              <div><p class="age-badge">18 to 25</p><h3>Students and first jobs</h3></div>
+            </div>
+            <ul class="age-can" aria-label="You can"><li><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-check"/></svg><span>Buy shares with a <strong data-term="sahulat">PSX Sahulat account</strong> (just your CNIC)</span></li><li><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-check"/></svg><span>Start a <strong data-opt="mmf">money market fund</strong> or <strong data-term="etf">ETF</strong> from about Rs 500</span></li><li><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-check"/></svg><span>Freelancers: open a <strong data-term="freelancer">Freelancer Digital Account</strong></span></li></ul>
+            <p class="age-need"><strong>You need:</strong> Your CNIC. Become a tax filer early, as filers pay about half the tax.</p>
+            <p class="age-step"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-arrow-right"/></svg><span><strong>First step:</strong> Keep 3 months of spending in a money market fund, then add a little to an ETF every month.</span></p>
+          </li>
+          <li class="age-card a-mid">
+            <div class="age-top">
+              <span class="age-ic"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-home"/></svg></span>
+              <div><p class="age-badge">26 to 45</p><h3>Working and family</h3></div>
+            </div>
+            <ul class="age-can" aria-label="You can"><li><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-check"/></svg><span>Use <strong data-term="halal">halal versions</strong> of most options</span></li><li><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-check"/></svg><span>Pay into a <strong data-term="vps">pension plan (VPS)</strong> and pay less tax</span></li><li><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-check"/></svg><span>Keep money for the <strong>next 3 years</strong> safe; grow the rest</span></li></ul>
+            <p class="age-need"><strong>You need:</strong> Your CNIC, and filer status to keep tax low.</p>
+            <p class="age-step"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-arrow-right"/></svg><span><strong>First step:</strong> Put your amount in the planner at the top. It shows the split for your goal.</span></p>
+          </li>
+          <li class="age-card a-senior">
+            <div class="age-top">
+              <span class="age-ic"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-coins"/></svg></span>
+              <div><p class="age-badge">60 and over</p><h3>Retired, or close to it</h3></div>
+            </div>
+            <ul class="age-can" aria-label="You can"><li><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-check"/></svg><span><strong data-opt="behbood">Behbood</strong> or <strong data-opt="pensioners">Pensioners' account</strong>: profit every month, backed by the government</span></li><li><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-check"/></svg><span>Take <strong>up to half</strong> of a pension plan out tax-free when you retire</span></li><li><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-check"/></svg><span>Keep most money where it is <strong>safe</strong></span></li></ul>
+            <p class="age-need"><strong>You need:</strong> Your CNIC, and pension papers for the Pensioners' account.</p>
+            <p class="age-step"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-arrow-right"/></svg><span><strong>First step:</strong> In the planner, tick "Aged 60+" and choose "Monthly income".</span></p>
+          </li>
+        </ul>
+        <details class="age-more">
+          <summary>More details and what is not confirmed<svg class="ic chev" aria-hidden="true"><use href="assets/icons.svg#i-chev-down"/></svg></summary>
+          <ul>
+            <li>Teen accounts are a new SBP rule from April 2026: rupees only, no cheque book, no loans. At 18 it becomes a normal account.</li>
+            <li>Minor share accounts have been allowed since November 2025. At 18 the shares move to your own name with no tax on the move.</li>
+            <li>PSX Sahulat accounts go up to Rs 30 lakh. Pension plans (VPS) start at 18; the tax saving covers up to 20% of your taxable income.</li>
+            <li>Behbood and the Pensioners' account pay 12.96% a year from 21 Oct 2026.</li>
+            <li>Not confirmed yet: the exact ID and limits for teen accounts, and whether funds and National Savings can be held in a child's own name. Ask the bank or office before you go.</li>
+          </ul>
+        </details>
+      </div>
+    </section>
+
+    <!-- ===================== RATES ===================== -->
+    <section class="rates" id="rates" aria-labelledby="rates-title">
+      <div class="shell">
+        <div class="sec-head">
+          <img class="spot" src="assets/spot-certificate.svg" alt="" width="240" height="180">
+          <div>
+            <h2 id="rates-title">Today's numbers</h2>
+            <p class="section-lede">How much the main options pay a year, before tax. Each number shows its date. A ≈ sign means it is an estimate.</p>
+          </div>
+        </div>
+        <div class="rates-grid">
+          <div class="rate-feature" id="rate-feature"></div>
+          <ul class="rate-list" id="rate-list"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== MYTHS ===================== -->
+    <section class="facts" id="facts" aria-labelledby="facts-title">
+      <div class="shell">
+        <div class="sec-head">
+          <img class="spot" src="assets/spot-research.svg" alt="" width="240" height="180">
+          <div>
+            <h2 id="facts-title">What people say vs what happened</h2>
+            <p class="section-lede">Things Pakistanis often say about money, checked against official numbers from SBP (the central bank), FBR (tax office) and PSX (the stock market). Many were true in 2018-23 but not since.</p>
+          </div>
+        </div>
+        <ul class="fact-list" id="fact-list"></ul>
+        <button class="more-btn" type="button" id="facts-more" aria-expanded="false" aria-controls="fact-list" hidden></button>
+      </div>
+    </section>
+
+    <!-- ===================== PSX ===================== -->
+    <section class="stocks" id="stocks" aria-labelledby="stocks-title">
+      <div class="shell">
+        <div class="sec-head">
+          <img class="spot" src="assets/spot-market.svg" alt="" width="240" height="180">
+          <div>
+            <h2 id="stocks-title">PSX snapshot</h2>
+            <p class="section-lede">Facts, not tips. A <strong>share</strong> is a small piece of a company. Below are the big companies Pakistanis talk about most, and <strong>ETFs</strong>, which let you own a little of many companies in one go. Nothing here tells you to buy.</p>
+          </div>
+        </div>
+        <dl class="market-stats" id="stock-stats"></dl>
+
+        <h3 class="block-h">Popular companies that pay a yearly share of profit</h3>
+        <div class="table-wrap" tabindex="0" role="region" aria-labelledby="stocks-cap">
+          <table class="stock-table">
+            <caption id="stocks-cap">Prices on 30 Oct 2026. Price changes leave out profit payouts. Payouts are rough estimates.</caption>
+            <thead><tr><th scope="col">Code</th><th scope="col">Company</th><th scope="col">Business</th><th scope="col" class="num">Price (Rs)</th><th scope="col" class="num"><span data-term="pe">Price vs profit (P/E)</span></th><th scope="col" class="bar-col">Last 1 year</th><th scope="col" class="num">2026 so far</th><th scope="col" class="num"><span data-term="float">Shares that trade</span></th><th scope="col" class="num"><span data-term="payout">Yearly payout*</span></th></tr></thead>
+            <tbody id="stock-rows"></tbody>
+          </table>
+        </div>
+        <p class="fine">Half of these went up and half went down last year. Even the shares people talk about most online did worse than the whole market (the KSE-100). <strong>Price vs profit (P/E):</strong> how many years of profit the price equals; lower can mean cheaper. <strong>Shares that trade:</strong> if few shares are for sale, the price can jump around more.</p>
+
+        <h3 class="block-h"><span data-term="etf">ETFs</span>: buy many companies at once</h3>
+        <div class="table-wrap" tabindex="0" role="region" aria-labelledby="etf-cap">
+          <table class="etf-table">
+            <caption id="etf-cap">Size of each fund, about 30 Oct 2026. Few people trade these each day, so when you buy, set the highest price you will pay (a "limit order").</caption>
+            <thead><tr><th scope="col">Code</th><th scope="col">Fund</th><th scope="col">What it follows</th><th scope="col"><span data-term="fee">Yearly fee</span></th><th scope="col" class="bar-col">Size (Rs billion)</th></tr></thead>
+            <tbody id="etf-rows"></tbody>
+          </table>
+        </div>
+        <p class="fine">Data: <a href="https://dps.psx.com.pk/" target="_blank" rel="noopener">PSX data portal<span class="sr-only"> (opens in new tab)</span></a>. Check live prices before acting.</p>
+      </div>
+    </section>
+
+    <!-- ===================== FOREIGN SHARES ===================== -->
+    <section class="abroad" id="abroad" aria-labelledby="abroad-title">
+      <div class="shell">
+        <div class="sec-head">
+          <img class="spot" src="assets/spot-globe.svg" alt="" width="240" height="180">
+          <div>
+            <h2 id="abroad-title">Can I buy Apple or Tesla shares from Pakistan?</h2>
+            <p class="section-lede">Yes, there is one legal way, with limits. Many other ways you see online are risky, against the rules, or scams.</p>
+          </div>
+        </div>
+        <ul class="abroad-list">
+          <li class="ab-card ab-ok">
+            <h3><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-check"/></svg>Allowed</h3>
+            <ul>
+              <li><strong>Up to $25,000 a year</strong> in shares of companies listed abroad (like Apple or Tesla), sent through <strong>one bank branch</strong> you choose.</li>
+              <li>You must be a <strong data-term="filer">tax filer</strong>, use money you paid tax on, and tell SBP within a month (form V-100).</li>
+              <li>Any profit or money from selling <strong>must come back to Pakistan</strong>, in rupees.</li>
+              <li>Inside Pakistan: PMEX (a regulated exchange) has <strong data-term="futures">futures</strong> on US markets like the S&amp;P 500. These are bets on the price, with borrowed money, not owning shares. Risky.</li>
+            </ul>
+          </li>
+          <li class="ab-card ab-grey">
+            <h3><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-half-circle"/></svg>Unclear (grey)</h3>
+            <ul>
+              <li>Paying a foreign app by debit card, Wise, Payoneer or a freelancer dollar balance. People do it, but it skips the bank route above.</li>
+              <li>Buying foreign <strong>ETFs</strong>: the rule says "shares of companies" and does not say if ETFs count.</li>
+              <li>Leaving profit abroad instead of bringing it home.</li>
+            </ul>
+          </li>
+          <li class="ab-card ab-no">
+            <h3><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-x-circle"/></svg>Not allowed or a scam</h3>
+            <ul>
+              <li><strong data-term="cfd">Forex, CFD or "margin trading" apps</strong> based abroad. SBP banned sending money to them in 2022.</li>
+              <li>Any "broker" <strong>not licensed by SECP</strong>, especially ones found on WhatsApp, Telegram or Instagram.</li>
+              <li><strong data-term="pvara">Crypto apps without a PVARA licence</strong>, and "tokenised shares" on crypto exchanges. These are not real shares.</li>
+            </ul>
+          </li>
+        </ul>
+        <div class="ab-spot card">
+          <h3 class="card-h"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-shield"/></svg>How the fake "US share" apps work</h3>
+          <ol>
+            <li>Someone adds you to a WhatsApp or Telegram group with "signals".</li>
+            <li>The app shows big profits on screen, and lets you take out a small amount to win your trust.</li>
+            <li>Then they push you to put in more. When you try to take it all out, there is a "fee" or the app disappears.</li>
+          </ol>
+          <p>SECP has warned about fake apps using the name of Interactive Brokers ("IBKR"), Quotex and copies of real brokers. Check any company on the SECP, PSX or PMEX broker lists first, or paste the message into the <a href="#scam">scam check</a>.</p>
+        </div>
+        <p class="fine">Tax: if you live in Pakistan, profit from abroad is taxed here, and you must declare foreign income over $10,000 or foreign assets over $100,000 a year. Rules from the SBP Foreign Exchange Manual, Chapter 20. Not confirmed: the tax rate on foreign share profits.</p>
+      </div>
+    </section>
+
+    <!-- ===================== ADVICE ===================== -->
+    <section class="advice" id="advice" aria-labelledby="advice-title">
+      <div class="shell advice-grid">
+        <div class="advice-side">
+          <img class="spot" src="assets/spot-chat.svg" alt="" width="240" height="180">
+          <h2 id="advice-title">Advice board</h2>
+          <p class="section-lede">What Pakistanis tell each other about money. Vote up what makes sense. Every post is someone's opinion, not advice.</p>
+
+          <details class="new-post">
+            <summary><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-plus"/></svg>Share your advice</summary>
+            <form id="post-form">
+              <div class="field">
+                <label for="post-title">Headline</label>
+                <input id="post-title" required maxlength="100" autocomplete="off">
+              </div>
+              <div class="field">
+                <label for="post-body">Your advice and why</label>
+                <textarea id="post-body" required rows="4" maxlength="1000"></textarea>
+              </div>
+              <fieldset class="checks inline">
+                <legend>Who is it for?</legend>
+                <label><input type="checkbox" value="income"><span>Monthly income</span></label>
+                <label><input type="checkbox" value="halal"><span>Halal</span></label>
+                <label><input type="checkbox" value="long"><span>Long term</span></label>
+                <label><input type="checkbox" value="short"><span>Short term</span></label>
+                <label><input type="checkbox" value="property"><span>Property</span></label>
+              </fieldset>
+              <div class="form-end">
+                <button class="cta small" type="submit">Post</button>
+                <p class="hint">Posts are saved only in this browser for now.</p>
+              </div>
+            </form>
+          </details>
+        </div>
+
+        <div class="advice-main">
+          <div class="filters" role="group" aria-label="Filter posts">
+            <button type="button" class="filter" aria-pressed="true" data-tag="">All</button>
+            <button type="button" class="filter" aria-pressed="false" data-tag="income">Monthly income</button>
+            <button type="button" class="filter" aria-pressed="false" data-tag="halal">Halal</button>
+            <button type="button" class="filter" aria-pressed="false" data-tag="long">Long term</button>
+            <button type="button" class="filter" aria-pressed="false" data-tag="short">Short term</button>
+            <button type="button" class="filter" aria-pressed="false" data-tag="property">Property</button>
+            <button type="button" class="filter" aria-pressed="false" data-tag="overseas">Overseas</button>
+          </div>
+          <p class="sr-only" id="board-count" aria-live="polite"></p>
+          <ul class="post-list" id="post-list"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SCAM ===================== -->
+    <section class="scam" id="scam" aria-labelledby="scam-title">
+      <div class="shell">
+        <div class="scam-panel">
+          <div class="scam-intro">
+            <img class="spot" src="assets/spot-scam.svg" alt="" width="240" height="200">
+            <h2 id="scam-title">Someone offered you a "scheme"?</h2>
+            <p class="section-lede">Paste the WhatsApp message or pitch. We check it for the red flags behind Pakistan's biggest investment frauds.</p>
+          </div>
+          <div class="scam-work">
+            <form id="scam-form">
+              <label for="pitch">Message or pitch</label>
+              <textarea id="pitch" rows="6" placeholder="e.g. Invest 5 lakh in our mudaraba business, guaranteed 8% monthly profit. Limited seats, DM on WhatsApp."></textarea>
+              <button class="cta small" type="submit"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-search"/></svg>Check it</button>
+            </form>
+            <div id="scam-result" aria-live="polite"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ===================== WORDS ===================== -->
+    <section class="words" id="words" aria-labelledby="words-title">
+      <div class="shell">
+        <h2 id="words-title">Money words, made simple</h2>
+        <p class="section-lede">Words you will see on this site and in banks, in plain English and simple Urdu.</p>
+        <dl class="word-list">
+          <div><dt>Profit / return <span class="ur" lang="ur">منافع</span></dt><dd>Extra money your savings earn on top of what you put in.</dd></div>
+          <div><dt>Interest <span class="ur" lang="ur">سود</span></dt><dd>Extra money a bank pays you, or charges you. Many Muslims avoid it; halal options use profit-sharing instead.</dd></div>
+          <div><dt>Inflation <span class="ur" lang="ur">مہنگائی</span></dt><dd>Prices going up, so the same money buys less each year.</dd></div>
+          <div><dt>After tax <span class="ur" lang="ur">ٹیکس کٹنے کے بعد</span></dt><dd>What you keep after the government takes its share.</dd></div>
+          <div><dt>Filer <span class="ur" lang="ur">فائلر</span></dt><dd>Someone who files a tax return every year. Filers pay about half the tax non-filers pay.</dd></div>
+          <div><dt>Guaranteed <span class="ur" lang="ur">پکا</span></dt><dd>You are promised your money back. Only government schemes, and bank deposits up to Rs 10 lakh, are.</dd></div>
+          <div><dt>Risk <span class="ur" lang="ur">خطرہ</span></dt><dd>The chance you get back less than you put in.</dd></div>
+          <div><dt>Share / stock <span class="ur" lang="ur">شیئر</span></dt><dd>A small piece of a company. If the company does well, the piece is worth more.</dd></div>
+          <div><dt>PSX <span class="ur" lang="ur">اسٹاک ایکسچینج</span></dt><dd>Pakistan Stock Exchange: the market where shares are bought and sold.</dd></div>
+          <div><dt>KSE-100</dt><dd>A number that shows how the 100 biggest companies on PSX are doing overall.</dd></div>
+          <div><dt>Mutual fund <span class="ur" lang="ur">میوچل فنڈ</span></dt><dd>Many people put money together and a licensed company invests it for them.</dd></div>
+          <div><dt>Money market fund</dt><dd>A very safe fund that lends to the government and banks. You can take money out in 1 to 2 days.</dd></div>
+          <div><dt>REIT</dt><dd>A fund on PSX that owns big buildings, like malls and offices. You own a small share and get part of the rent.</dd></div>
+          <div><dt>ETF</dt><dd>A fund you buy on PSX like a share. It owns a little of many companies at once.</dd></div>
+          <div><dt>T-bill <span class="ur" lang="ur">ٹریژری بل</span></dt><dd>A short loan you give the government. It pays you back with profit after 3 to 12 months.</dd></div>
+          <div><dt>National Savings (CDNS) <span class="ur" lang="ur">قومی بچت</span></dt><dd>The government's savings schemes, like Behbood and Sarwa, at post-office-style branches or on the app.</dd></div>
+          <div><dt>Dividend <span class="ur" lang="ur">ڈیویڈنڈ</span></dt><dd>Part of a company's profit paid to people who own its shares.</dd></div>
+          <div><dt>Compound growth <span class="ur" lang="ur">منافع پر منافع</span></dt><dd>Profit that starts earning profit too, so money grows faster over time.</dd></div>
+          <div><dt>Halal / Shariah-compliant <span class="ur" lang="ur">شرعی</span></dt><dd>Follows Islamic rules: no interest, no forbidden businesses.</dd></div>
+          <div><dt>Lakh / crore <span class="ur" lang="ur">لاکھ / کروڑ</span></dt><dd>1 lakh = 100,000. 1 crore = 100 lakh = 10 million.</dd></div>
+          <div><dt>SECP</dt><dd>The government body that licenses investment companies and brokers. If it is not on their list, stay away.</dd></div>
+        </dl>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="shell foot-grid">
+      <div class="foot-brand">
+        <p class="foot-logo">
+          <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+            <rect width="32" height="32" rx="9" fill="#F6A823"/>
+            <path d="M16 4.5c-5.6 0-10 4.3-10 9.7 0 7 10 13.8 10 13.8s10-6.8 10-13.8c0-5.4-4.4-9.7-10-9.7z" fill="#0A3F3B"/>
+            <circle cx="16" cy="14.2" r="5.6" fill="#F6A823"/>
+            <path d="M13.2 16.4l2.1-2.4 1.5 1.4 2.2-2.6" fill="none" stroke="#0A3F3B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>Kahan Lagayein?</span>
+        </p>
+        <p class="foot-ur" lang="ur">پیسہ کہاں لگائیں؟</p>
+      </div>
+      <div class="foot-copy">
+        <p><strong>Kahan Lagayein?</strong> compares public data. It is not a SECP-licensed investment adviser and does not sell any product.</p>
+        <p>Data: SBP, PBS, CDNS (via press reports), PSX, Sarafa association, AMC reports, FBR withholding rate card 2026-27. Last updated <span id="as-of"></span>.</p>
+      </div>
+      <nav class="foot-nav" aria-label="Footer">
+        <ul>
+          <li><a href="#plan">Planner</a></li>
+          <li><a href="#idle">Idle money</a></li>
+          <li><a href="#ages">By age</a></li>
+          <li><a href="#rates">Rates</a></li>
+          <li><a href="#facts">Myths vs data</a></li>
+          <li><a href="#stocks">PSX</a></li>
+          <li><a href="#abroad">Foreign shares</a></li>
+          <li><a href="#advice">Advice board</a></li>
+          <li><a href="#scam">Scam check</a></li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="data.js?v=20261031e"></script>
+  <script src="engine.js?v=20261031e"></script>
+  <script src="community.js?v=20261031e"></script>
+  <script src="facts.js?v=20261031e"></script>
+  <script src="app.js?v=20261031e"></script>
+  <script src="motion.js?v=20261031e"></script>
+</body>
+</html>

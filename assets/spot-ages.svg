@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180">
+  <!-- Three generations standing on growing coin stacks -->
+  <path d="M30 170V86c0-42 40-72 90-80 50 8 90 38 90 80v84z" fill="#D5EBE5"/>
+  <ellipse cx="120" cy="168" rx="86" ry="7" fill="#0D5C55" opacity=".14"/>
+  <g stroke="#102A2C" stroke-width="3">
+    <rect x="52" y="146" width="36" height="14" rx="4" fill="#F6A823"/>
+    <rect x="102" y="132" width="36" height="28" rx="4" fill="#F6A823"/>
+    <path d="M102 146h36" fill="none"/>
+    <rect x="152" y="118" width="36" height="42" rx="4" fill="#F6A823"/>
+    <path d="M152 132h36M152 146h36" fill="none"/>
+  </g>
+  <g stroke="#102A2C" stroke-width="3">
+    <path d="M60 146v-18a10 10 0 0 1 20 0v18z" fill="#2F5DA8"/>
+    <circle cx="70" cy="108" r="9" fill="#F2C9A0"/>
+    <path d="M108 132v-26a12 12 0 0 1 24 0v26z" fill="#0D5C55"/>
+    <circle cx="120" cy="82" r="11" fill="#D9A47A"/>
+    <path d="M158 118v-28a12 12 0 0 1 24 0v28z" fill="#E2603F"/>
+    <circle cx="170" cy="64" r="11" fill="#C98F66"/>
+    <path d="M160 58c2-8 18-8 20 0" fill="#FFFFFF"/>
+  </g>
+  <path d="M190 44l14-14M196 30h8v8" fill="none" stroke="#0D5C55" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

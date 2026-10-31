@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180">
+  <!-- Phone with a candlestick chart and a rising arrow: PSX -->
+  <path d="M30 170V86c0-42 40-72 90-80 50 8 90 38 90 80v84z" fill="#DCE6F5"/>
+  <ellipse cx="120" cy="168" rx="86" ry="7" fill="#102A2C" opacity=".12"/>
+  <rect x="78" y="22" width="84" height="146" rx="14" fill="#102A2C"/>
+  <rect x="85" y="34" width="70" height="122" rx="8" fill="#FFFFFF"/>
+  <rect x="108" y="27" width="24" height="4" rx="2" fill="#4A5F62"/>
+  <g stroke="#102A2C" stroke-width="2">
+    <path d="M97 70v34M111 82v30M125 62v30M139 56v28"/>
+  </g>
+  <rect x="93" y="78" width="8" height="18" rx="2" fill="#0B7A45"/>
+  <rect x="107" y="88" width="8" height="16" rx="2" fill="#B3261E"/>
+  <rect x="121" y="68" width="8" height="18" rx="2" fill="#0B7A45"/>
+  <rect x="135" y="62" width="8" height="14" rx="2" fill="#0B7A45"/>
+  <rect x="93" y="124" width="54" height="6" rx="3" fill="#C8D3D1"/>
+  <rect x="93" y="136" width="36" height="6" rx="3" fill="#C8D3D1"/>
+  <g>
+    <path d="M40 132l34-30 22 16 46-48 24 6" fill="none" stroke="#F6A823" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M176 60l24 2-12 22" fill="#F6A823" stroke="#F6A823" stroke-width="6" stroke-linejoin="round"/>
+  </g>
+  <g fill="#2F5DA8"><circle cx="46" cy="58" r="4"/><circle cx="210" cy="128" r="3.5"/></g>
+</svg>

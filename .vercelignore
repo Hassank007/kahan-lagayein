@@ -1,0 +1,8 @@
+_backup-*/
+research_notes/
+reports/
+RESEARCH.md
+.vercel/
+node_modules/
+.gitignore
+README.md
