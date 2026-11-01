@@ -18,10 +18,13 @@
   <meta name="theme-color" content="#F3F4EE">
   <script>try { if (localStorage.getItem("kl.theme") === "dark") document.documentElement.dataset.theme = "dark"; } catch (e) {}</script>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-title" content="Kahan Lagayein">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Nastaliq+Urdu:wght@500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20261031e">
+  <link rel="stylesheet" href="styles.css?v=20261101g">
 </head>
 <body>
   <a class="skip" href="#planner">Skip to the planner</a>
@@ -85,6 +88,7 @@
         <li><a href="#abroad"><span class="drawer-ic"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-globe"/></svg></span><span><b>Foreign shares</b><small>Apple, Tesla: what is allowed</small></span></a></li>
         <li><a href="#advice"><span class="drawer-ic"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-chat"/></svg></span><span><b>Advice board</b><small>Vote on what holds up</small></span></a></li>
         <li><a href="#words"><span class="drawer-ic"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-info"/></svg></span><span><b>Money words</b><small>Simple meanings, English and Urdu</small></span></a></li>
+        <li class="install-li" hidden><button class="install-btn drawer-install" type="button"><span class="drawer-ic"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-phone"/></svg></span><span><b>Add to home screen</b><small>Open it like an app, even offline</small></span></button></li>
         <li><a href="#scam"><span class="drawer-ic warn"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-shield"/></svg></span><span><b>Scam check</b><small>Paste a "scheme" and test it</small></span></a></li>
       </ul>
     </nav>
@@ -177,6 +181,7 @@
 
         <form class="planner" id="planner" novalidate aria-labelledby="planner-title" tabindex="-1">
           <h2 class="planner-title" id="planner-title">Plan your money</h2>
+          <div class="return-note" id="return-note" hidden></div>
 
           <div class="field amount-field">
             <label for="amount">How much do you want to invest?</label>
@@ -214,15 +219,6 @@
             </div>
           </fieldset>
 
-          <fieldset class="seg">
-            <legend>Say your Rs 100 became Rs 80 in a bad year. You would…</legend>
-            <div class="seg-opts">
-              <label><input type="radio" name="risk" value="low"><span>Panic. Keep it safe.</span></label>
-              <label><input type="radio" name="risk" value="medium" checked><span>Worry, but wait</span></label>
-              <label><input type="radio" name="risk" value="high"><span>Buy more</span></label>
-            </div>
-          </fieldset>
-
           <fieldset class="checks">
             <legend>About you</legend>
             <label><input type="checkbox" name="halal"><span>Halal only (Islamic options, no interest)</span></label>
@@ -254,6 +250,13 @@
         <div class="res-head">
           <h2 id="results-title">Your money plan</h2>
           <p class="results-sub" id="results-sub"></p>
+          <p class="fresh" id="fresh"></p>
+          <div class="share-bar">
+            <a class="cta small" id="share-wa" href="#" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-chat"/></svg>Share on WhatsApp<span class="sr-only"> (opens WhatsApp)</span></a>
+            <button class="more-btn" type="button" id="copy-link">Copy link to this plan</button>
+            <button class="more-btn install-btn" type="button" hidden><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-phone"/></svg>Add to home screen</button>
+            <p class="share-status" id="share-status" role="status"></p>
+          </div>
         </div>
 
         <div class="res-top">
@@ -424,6 +427,10 @@
         <div class="rates-grid">
           <div class="rate-feature" id="rate-feature"></div>
           <ul class="rate-list" id="rate-list"></ul>
+        </div>
+        <div class="changes card">
+          <h3 class="card-h"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-clock"/></svg>What changed lately</h3>
+          <ul class="change-list" id="change-list"></ul>
         </div>
       </div>
     </section>
@@ -664,11 +671,20 @@
     </div>
   </footer>
 
-  <script src="data.js?v=20261031e"></script>
-  <script src="engine.js?v=20261031e"></script>
-  <script src="community.js?v=20261031e"></script>
-  <script src="facts.js?v=20261031e"></script>
-  <script src="app.js?v=20261031e"></script>
-  <script src="motion.js?v=20261031e"></script>
+  <script src="data.js?v=20261101g"></script>
+  <script src="engine.js?v=20261101g"></script>
+  <script src="community.js?v=20261101g"></script>
+  <script src="facts.js?v=20261101g"></script>
+  <script src="app.js?v=20261101g"></script>
+  <script src="motion.js?v=20261101g"></script>
+  <dialog class="ios-dialog" id="ios-dialog" aria-labelledby="ios-title">
+    <h2 id="ios-title">Add it to your home screen</h2>
+    <ol>
+      <li>Tap the <b>Share</b> button <svg class="ios-share" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3v12M8 7l4-4 4 4M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> in Safari. On iPhone it's at the bottom of the screen.</li>
+      <li>Scroll down and tap <b>Add to Home Screen</b>.</li>
+      <li>Tap <b>Add</b>. Kahan Lagayein now opens from its own icon, like an app.</li>
+    </ol>
+    <form method="dialog"><button class="cta small" type="submit">Got it</button></form>
+  </dialog>
 </body>
 </html>

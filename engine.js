@@ -115,7 +115,14 @@
     const cpi = p.horizon > 2 ? MARKET.cpiLongRun.value : MARKET.cpi.value;
     const real = (r) => ((1 + r / 100) / (1 + cpi / 100) - 1) * 100;
     const years = Math.max(p.horizon, 1);
-    const grow = (r) => p.amount * Math.pow(1 + r / 100, years);
+    // Value after t years: the lump sum plus any money added at the end of each month, all at rate r.
+    const addMonthly = p.monthly > 0 ? p.monthly : 0;
+    const valueAt = (r, t) => {
+      const i = Math.pow(1 + r / 100, 1 / 12) - 1;
+      const n = Math.round(t * 12);
+      return p.amount * Math.pow(1 + r / 100, t) + (addMonthly ? (i ? addMonthly * (Math.pow(1 + i, n) - 1) / i : addMonthly * n) : 0);
+    };
+    const grow = (r) => valueAt(r, years);
     const realRate = real(netRate);
     const idleValue = p.amount / Math.pow(1 + cpi / 100, years);
     const monthly = lines.reduce((s, l) => s + l.monthly, 0);
@@ -136,7 +143,8 @@
 
     return {
       weights, lines, warnings, netRate, netLow, netHigh, realRate, realLow: real(netLow), realHigh: real(netHigh),
-      years, futureValue: grow(netRate), futureLow: grow(netLow), futureHigh: grow(netHigh),
+      years, valueAt, putIn: p.amount + addMonthly * Math.round(years * 12), lumpFuture: p.amount * Math.pow(1 + netRate / 100, years),
+      futureValue: grow(netRate), futureLow: grow(netLow), futureHigh: grow(netHigh),
       todayMoney: p.amount * Math.pow(1 + realRate / 100, years), idleValue, monthly, usesAssumption, unverified, cpi, badYear,
     };
   }

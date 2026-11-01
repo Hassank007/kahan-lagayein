@@ -17,6 +17,12 @@ window.MARKET = {
     isTotalReturn: true, asOf: "2026-10-30", source: "PSX data portal", verified: true,
   },
   kmi30: { value: 237972, asOf: "2026-10-30", source: "PSX data portal", verified: true },
+  // Shown under "Today's numbers". Newest first; add a line whenever a rate in this file changes.
+  changes: [
+    { date: "2026-10-28", text: "New T-bill rates from the latest government sale: 12.42% for 3 months to 12.89% for 1 year." },
+    { date: "2026-10-27", text: "SBP raised the central bank rate to 12%. Bank and fund rates may go up in the coming weeks." },
+    { date: "2026-10-21", text: "National Savings changed its rates. Behbood and the Pensioners' account now pay 12.96%." },
+  ],
   goldTola: { value: 420536, peak: 551662, peakDate: "2026-01-28", drawdownFromPeak: -24, asOf: "2026-10-30", source: "Business Recorder / Aaj", verified: true },
 };
 
@@ -230,4 +236,17 @@ window.FX = {
 window.OVERSEAS = {
   rupeeFall: 8,                                   // ~8%/yr average fall vs USD over 20 years (see FACTS)
   usdCert: { low: 6.75, high: 7.75, tax: 10 },    // USD Naya Pakistan Certificates, SBP NPC page, Jun 2026
+};
+
+// Official pages for "How to start". Each one was opened and checked on 2026-11-01.
+window.OFFICIAL = {
+  cdns: { url: "https://savings.gov.pk", label: "National Savings (CDNS) website" },
+  investpak: { url: "https://investpak.sbp.org.pk", label: "InvestPak, run by SBP" },
+  rda: { url: "https://www.sbp.org.pk/our-operations/roshan-digital-accounts", label: "Roshan Digital Account (SBP)" },
+  mufap: { url: "https://www.mufap.com.pk", label: "List of licensed funds (MUFAP)" },
+  psx: { url: "https://www.psx.com.pk", label: "Pakistan Stock Exchange" },
+};
+window.OPTION_LINK = {
+  behbood: "cdns", pensioners: "cdns", ric: "cdns", ssc: "cdns", dsc: "cdns", stsc: "cdns", sarwa: "cdns",
+  tbill: "investpak", npc: "rda", mmf: "mufap", immf: "mufap", equityfund: "psx", iequityfund: "psx", reit: "psx",
 };

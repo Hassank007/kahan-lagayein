@@ -17,6 +17,10 @@
   const short = (n) => (n >= 1e7 ? trim(n / 1e7) + " cr" : n >= 1e5 ? trim(n / 1e5) + " lakh" : n >= 1e3 ? trim(n / 1e3) + "k" : grouped(n));
   const pct = (x) => Number(x.toFixed(2)) + "%";
   const signed = (x) => (x >= 0 ? "+" : "") + pct(x);
+  const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const fmtDate = (iso) => (/^\d{4}-\d\d-\d\d$/.test(iso) ? `${+iso.slice(8)} ${MONTHS[+iso.slice(5, 7) - 1]} ${iso.slice(0, 4)}` : iso);
+  const today = () => new Date().toISOString().slice(0, 10);
+  const daysSince = (iso) => Math.floor((Date.parse(today()) - Date.parse(iso)) / 864e5);
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
   function parseAmount(raw) {
@@ -243,6 +247,7 @@
       .map(([label, val, date, ok, ic, t]) => `<li><span class="rate-ic">${icon(ic)}</span><span class="rate-label">${label}${t || ""}</span><span class="rate-val num">${ok ? "" : "≈"}${val}</span><span class="rate-date">${ok ? "as of" : "estimate,"} ${date}</span></li>`)
       .join("");
     $("#as-of").textContent = MARKET.asOf;
+    $("#change-list").innerHTML = (MARKET.changes || []).map((c) => `<li><time datetime="${c.date}">${fmtDate(c.date)}</time><span>${esc(c.text)}</span></li>`).join("");
   }
 
   // ---------- planner ----------
@@ -278,7 +283,7 @@
       amount: parseAmount(amountInput.value),
       horizon: parseFloat(fd.get("horizon")),
       goal: fd.get("goal"),
-      risk: fd.get("risk"),
+      risk: "medium", // the risk question was removed; everyone gets the middle mix
       halal: fd.has("halal"),
       filer: fd.has("filer"),
       senior: fd.has("senior"),
@@ -352,7 +357,7 @@
   function growthSeries(p, r) {
     const yrs = r.years;
     const steps = yrs <= 1 ? [0, 0.25, 0.5, 0.75, 1] : Array.from({ length: Math.round(yrs) + 1 }, (_, i) => i);
-    const at = (rate) => steps.map((t) => p.amount * Math.pow(1 + rate / 100, t));
+    const at = (rate) => steps.map((t) => r.valueAt(rate, t));
     return {
       steps,
       nominal: at(r.netRate),
@@ -405,8 +410,8 @@
     const cert = OVERSEAS.usdCert;
     const certNet = ((cert.low + cert.high) / 2) * (1 - cert.tax / 100);
     const sent = p.amount / c.rate;
-    const steady = r.futureValue / c.rate;
-    const weaker = r.futureValue / (c.rate * Math.pow(1 + fall / 100, y));
+    const steady = r.lumpFuture / c.rate;
+    const weaker = r.lumpFuture / (c.rate * Math.pow(1 + fall / 100, y));
     const usdCert = sent * Math.pow(1 + certNet / 100, y);
     const bars = [
       ["You send today", sent, "b-today"],
@@ -426,6 +431,120 @@
         </ul>
         <p class="fx-note">${c.name} rate: ${c.rate.toFixed(2)} rupees, ${c.verified ? "" : "estimate, "}${esc(c.asOf)} (${esc(c.source)}). Planner amounts stay in rupees.</p>
       </div>`;
+  }
+
+  // ---------- committee comparison ----------
+  // A committee (BC) returns exactly what you pay in. Compare one year of Rs 10,000 a month
+  // in a money market fund (the Islamic one if halal), which you can also withdraw in 1-2 days.
+  function committeeCard(p) {
+    const m = 10000;
+    const fund = byId(p.halal ? "immf" : "mmf");
+    const rate = Engine.afterTaxRate(fund, p);
+    const i = Math.pow(1 + rate / 100, 1 / 12) - 1;
+    const inFund = m * (Math.pow(1 + i, 12) - 1) / i;
+    const paid = m * 12;
+    return `<div class="cmp-card card committee">
+        <h3 class="card-h">${icon("i-coins")}Compared with a committee</h3>
+        <p>Say you pay <strong>${rs(m)} a month</strong> into a 12-month committee: you get back exactly <strong>${rs(paid)}</strong>, with no profit.</p>
+        <p>The same ${rs(m)} a month in a ${esc(fund.name.toLowerCase())}${optTip(fund)} could be about <strong>${rs(inFund)}</strong> after a year, after tax. That is <strong class="pos">${rs(inFund - paid)} more</strong>, and you can take it out in 1 to 2 days.</p>
+        <p class="cmp-note">A committee still helps if you need the full amount early, or if saving on your own is hard. But nothing protects your money if a member stops paying or the organiser disappears.</p>
+      </div>`;
+  }
+
+  // ---------- how to start, freshness ----------
+  function howLink(o) {
+    const l = window.OFFICIAL[window.OPTION_LINK[o.id]];
+    return l ? `<a class="how-link" href="${l.url}" target="_blank" rel="noopener">${esc(l.label)}${icon("i-external")}<span class="sr-only"> (opens in a new tab)</span></a>` : "";
+  }
+  function freshLine() {
+    const d = daysSince(MARKET.asOf);
+    const when = d <= 0 ? "today" : d === 1 ? "yesterday" : `${d} days ago`;
+    return d > 45
+      ? `${icon("i-alert")}<span><strong>Rates last checked ${fmtDate(MARKET.asOf)} (${when}).</strong> Some may have changed, so check the official site before you invest.</span>`
+      : `${icon("i-clock")}<span>Rates last checked ${fmtDate(MARKET.asOf)} (${when}).</span>`;
+  }
+
+  // ---------- share and saved plan ----------
+  // A plan is stored as a short query string, so the same string works in a shared link and in localStorage.
+  const FLAGS = { halal: "hl", filer: "f", senior: "s", pensioner: "pn", overseas: "o", minor: "m" };
+  function encodePlan(p) {
+    const q = new URLSearchParams({ a: Math.round(p.amount), h: p.horizon, g: p.goal });
+    Object.entries(FLAGS).forEach(([k, v]) => q.set(v, p[k] ? 1 : 0));
+    if (p.overseas) q.set("c", p.currency);
+    return q.toString();
+  }
+  // Fill the form from a query string. Returns false if it doesn't hold a usable plan.
+  function applyPlan(qs) {
+    const q = new URLSearchParams(qs);
+    const a = +q.get("a");
+    if (!(a >= 10000 && a <= 1e10)) return false;
+    amountInput.value = grouped(a);
+    [["horizon", q.get("h")], ["goal", q.get("g")]].forEach(([name, v]) => {
+      const el = form.querySelector(`input[name="${name}"][value="${CSS.escape(v || "")}"]`);
+      if (el) el.checked = true;
+    });
+    Object.entries(FLAGS).forEach(([k, v]) => {
+      const el = form.querySelector(`input[name="${k}"]`);
+      if (el && q.has(v)) el.checked = q.get(v) === "1";
+    });
+    if (q.get("c") && [...currencySel.options].some((o) => o.value === q.get("c"))) currencySel.value = q.get("c");
+    $("#fx-field").hidden = !overseasBox.checked;
+    showAmountWords();
+    return true;
+  }
+  const planUrl = (p) => `${location.origin}${location.pathname}?${encodePlan(p)}#results`;
+
+  function setShare(p, r) {
+    const url = planUrl(p);
+    const top = r.lines.slice(0, 3).map((l) => `- ${l.opt.name}: ${short(l.amount)}`).join("\n");
+    const yrs = `${r.years} year${r.years > 1 ? "s" : ""}`;
+    const text = `I checked where to put ${rs(p.amount)} on Kahan Lagayein. It could grow about ${pct(r.netRate)} a year after tax, to about ${words(r.futureValue)} in ${yrs}.\n${top}\n\nSee the plan or make your own (free, no sign-up): ${url}`;
+    $("#share-wa").href = "https://wa.me/?text=" + encodeURIComponent(text);
+    $("#copy-link").dataset.url = url;
+    $("#share-status").textContent = "";
+  }
+  $("#copy-link").addEventListener("click", async (e) => {
+    const url = e.currentTarget.dataset.url;
+    const status = $("#share-status");
+    try {
+      await navigator.clipboard.writeText(url);
+      status.textContent = "Link copied. Paste it anywhere to share this plan.";
+    } catch (err) {
+      status.textContent = "Couldn't copy automatically. Your link: " + url;
+    }
+  });
+
+  const SAVE_KEY = "kl.plan";
+  function savePlan(p, r) {
+    try { localStorage.setItem(SAVE_KEY, JSON.stringify({ q: encodePlan(p), net: r.netRate, date: today() })); } catch (e) { /* storage blocked */ }
+  }
+  function loadPlan() {
+    try { return JSON.parse(localStorage.getItem(SAVE_KEY)); } catch (e) { return null; }
+  }
+
+  // On a return visit, say whether today's rates change the last plan.
+  function showReturnNote() {
+    const saved = loadPlan();
+    const note = $("#return-note");
+    if (!saved || !saved.q || saved.date === today() || !applyPlan(saved.q)) return;
+    const p = readProfile();
+    const now = Engine.plan(p).netRate;
+    const diff = ((now - saved.net) / 100) * p.amount;
+    const what = `your plan for ${rs(p.amount)} on ${fmtDate(saved.date)}`;
+    note.innerHTML = `<p>${icon("i-clock")}<span><strong>Welcome back.</strong> ${
+      Math.abs(diff) < 100
+        ? `Rates haven't changed enough to matter since ${what}. It still grows about ${pct(now)} a year after tax.`
+        : `Since ${what}, rates changed. It now grows about <b>${pct(now)}</b> a year after tax instead of ${pct(saved.net)}: about <b class="${diff < 0 ? "neg" : "pos"}">${rs(Math.abs(diff))} ${diff < 0 ? "less" : "more"}</b> a year.`
+    }</span></p>
+      <div class="return-actions"><button type="button" class="cta small" id="return-see">See my updated plan</button><button type="button" class="link-btn" id="return-forget">Forget my plan</button></div>`;
+    note.hidden = false;
+    $("#return-see").addEventListener("click", () => form.requestSubmit());
+    $("#return-forget").addEventListener("click", () => {
+      try { localStorage.removeItem(SAVE_KEY); } catch (e) { /* storage blocked */ }
+      note.hidden = true;
+      $("#planner-title").setAttribute("tabindex", "-1");
+      $("#planner-title").focus();
+    });
   }
 
   function renderPlan(p, r) {
@@ -451,7 +570,7 @@
       ["kpi-main", "Grows each year, after tax", cnt(pct(r.netRate)), ""],
       [`kpi-real ${realUp ? "pos" : "neg"}`, "Compared with rising prices", cnt(signed(r.realRate)), `${icon(realUp ? "i-arrow-up" : "i-arrow-down")}<span>${realUp ? "Ahead" : "Behind"}</span>`],
       ["", `In ${yrs}`, cnt(words(r.futureValue)), ""],
-      ["", `Profit in ${yrs}`, cnt(words(r.futureValue - p.amount)), ""],
+      ["", `Profit in ${yrs}`, cnt(words(r.futureValue - r.putIn)), ""],
     ].map(([cls, label, val, extra]) => `<div class="kpi ${cls}"><dt>${label}</dt><dd><span class="kpi-val num">${val}</span>${extra ? `<span class="kpi-tag">${extra}</span>` : ""}</dd></div>`).join("");
 
     // Donut + legend
@@ -521,9 +640,12 @@
           </dl>
           <dl class="opt-facts">${facts.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join("")}</dl>
           ${isPreHike(o) ? `<p class="opt-flag">${icon("i-info")}<span><strong>Note:</strong> this rate was set before the 27 Oct hike and may rise.</span></p>` : ""}
+          <div class="how">
+            <p><strong>How to start:</strong> ${esc(o.howToBuy)}</p>
+            ${howLink(o)}
+          </div>
           <details class="opt-more">
-            <summary>How to start, and the small print${icon("i-chev-down", "ic chev")}</summary>
-            <p class="how"><strong>How to start:</strong> ${esc(o.howToBuy)}</p>
+            <summary>The small print${icon("i-chev-down", "ic chev")}</summary>
             <p class="note">${esc(o.note)} <span class="src">Source: ${esc(o.source)}.</span></p>
           </details>
         </li>`;
@@ -531,9 +653,9 @@
       .join("");
 
     // How it grows
-    const gain = r.futureValue - p.amount;
+    const gain = r.futureValue - r.putIn;
     const bars = [
-      ["You put in today", p.amount, "b-today"],
+      ["You put in today", r.putIn, "b-today"],
       [`Your money after ${yrs}`, r.futureValue, "b-mix"],
     ];
     const bmax = Math.max(...bars.map((b) => b[1]));
@@ -541,14 +663,19 @@
       `<div class="cmp-card card">
         <h3 class="card-h">${icon("i-trend")}How much it can grow</h3>
         <ul class="cmp-bars">${bars.map(([label, v, cls]) => `<li class="${cls}"><span class="cmp-label">${label}</span><span class="cmp-row"><span class="cmp-bar" style="--w:${(v / bmax) * 100}%"></span><b class="num">${words(v)}</b></span></li>`).join("")}</ul>
-        <p>You put in <strong>${rs(p.amount)}</strong>. In ${yrs} it could grow to <strong>${rs(r.futureValue)}</strong>, a profit of about <strong>${words(gain)}</strong> after tax.</p>
+        <p>You put in <strong>${rs(r.putIn)}</strong>. In ${yrs} it could grow to <strong>${rs(r.futureValue)}</strong>, a profit of about <strong>${words(gain)}</strong> after tax.</p>
       </div>` +
+      committeeCard(p) +
       (p.overseas ? overseasCard(p, r, yrs) : "") +
       (r.usesAssumption ? `<p class="assume">${icon("i-info")}<span>Numbers for shares, gold and buildings (REITs) are <strong>averages from the last 20 years in Pakistan</strong>, not promises. Some years they fall a lot, and the result depends on when you start.</span></p>` : "");
 
     const tags = Community.tagsFor(p);
     const matched = Community.posts().filter((x) => x.tags.some((t) => tags.includes(t))).slice(0, 3);
     renderPosts($("#matched-posts"), matched, "h4");
+
+    $("#fresh").innerHTML = freshLine();
+    setShare(p, r);
+    savePlan(p, r);
 
     section.focus({ preventScroll: true });
     section.scrollIntoView({ block: "start" });
@@ -757,7 +884,37 @@
     ).join("");
   }
 
+  // ---------- install as an app ----------
+  // Android/Chrome fires beforeinstallprompt, so our button opens the real install prompt.
+  // iPhone Safari has no prompt, so the button shows the Share > Add to Home Screen steps.
+  if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {}));
+  const installBtns = [...document.querySelectorAll(".install-btn")];
+  const isApp = matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  let installEvt = null;
+  const showInstall = (on) => installBtns.forEach((b) => { (b.closest(".install-li") || b).hidden = !on; });
+  if (!isApp) {
+    if (isIOS) showInstall(true);
+    addEventListener("beforeinstallprompt", (e) => { e.preventDefault(); installEvt = e; showInstall(true); });
+  }
+  addEventListener("appinstalled", () => { installEvt = null; showInstall(false); });
+  installBtns.forEach((b) => b.addEventListener("click", async () => {
+    if (installEvt) {
+      closeDrawer();
+      installEvt.prompt();
+      const { outcome } = await installEvt.userChoice;
+      installEvt = null;
+      if (outcome === "accepted") showInstall(false);
+    } else if (isIOS) {
+      closeDrawer();
+      $("#ios-dialog").showModal();
+    }
+  }));
+
   addTips();
+  // A shared link opens straight on its plan; otherwise a returning visitor sees what changed.
+  if (new URLSearchParams(location.search).has("a") && applyPlan(location.search)) form.requestSubmit();
+  else showReturnNote();
   renderRates();
   renderIdle();
   renderFacts();
