@@ -24,7 +24,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Nastaliq+Urdu:wght@500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20261101g">
+  <link rel="stylesheet" href="styles.css?v=20261105b">
 </head>
 <body>
   <a class="skip" href="#planner">Skip to the planner</a>
@@ -200,15 +200,14 @@
             <p id="amount-error" class="error" hidden><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-alert"/></svg>Enter an amount of at least Rs 10,000.</p>
           </div>
 
-          <fieldset class="seg">
-            <legend>When might you need this money?</legend>
-            <div class="seg-opts">
-              <label><input type="radio" name="horizon" value="0.5"><span>Within a year</span></label>
-              <label><input type="radio" name="horizon" value="2"><span>1-3 years</span></label>
-              <label><input type="radio" name="horizon" value="4" checked><span>3-5 years</span></label>
-              <label><input type="radio" name="horizon" value="7"><span>5+ years</span></label>
+          <div class="field time-field">
+            <div class="time-head">
+              <label for="horizon">When might you need this money?</label>
+              <span class="time-out" id="horizon-out">In 4 years</span>
             </div>
-          </fieldset>
+            <input class="time-slider" type="range" id="horizon" min="0" max="9" step="1" value="4" aria-valuetext="In 4 years">
+            <div class="time-ends" aria-hidden="true"><span>Within a year</span><span>20 years</span></div>
+          </div>
 
           <fieldset class="seg">
             <legend>What do you want from it?</legend>
@@ -250,6 +249,7 @@
         <div class="res-head">
           <h2 id="results-title">Your money plan</h2>
           <p class="results-sub" id="results-sub"></p>
+          <div class="growth-note" id="growth-note" hidden></div>
           <p class="fresh" id="fresh"></p>
           <div class="share-bar">
             <a class="cta small" id="share-wa" href="#" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-chat"/></svg>Share on WhatsApp<span class="sr-only"> (opens WhatsApp)</span></a>
@@ -260,13 +260,37 @@
         </div>
 
         <div class="res-top">
-          <figure class="card donut-card">
-            <div class="donut-wrap" id="donut"></div>
-            <figcaption>
-              <h3 class="card-h">Where it goes</h3>
-              <ul class="legend" id="legend"></ul>
-            </figcaption>
-          </figure>
+          <div class="res-left">
+            <figure class="card donut-card">
+              <div class="donut-wrap" id="donut"></div>
+              <figcaption>
+                <h3 class="card-h">Where it goes</h3>
+                <ul class="legend" id="legend"></ul>
+              </figcaption>
+            </figure>
+
+            <div class="card goal-card" id="goal">
+              <h3 class="card-h"><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-flag"/></svg>Want it to grow more?</h3>
+              <p class="card-sub">Type what you want this money to become. We'll show if it's realistic, and what else could get you there.</p>
+              <form class="goal-form" id="goal-form" novalidate>
+                <div class="field">
+                  <label for="goal-want">I want it to become (Rs)</label>
+                  <input id="goal-want" inputmode="numeric" autocomplete="off" spellcheck="false" aria-describedby="goal-words goal-error">
+                </div>
+                <div class="field">
+                  <label for="goal-years">In how many years?</label>
+                  <select id="goal-years">
+                    <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+                    <option>7</option><option>10</option><option>15</option><option>20</option>
+                  </select>
+                </div>
+                <button class="cta small" type="submit">Check my target</button>
+              </form>
+              <p id="goal-words" class="amount-words" aria-live="polite"></p>
+              <p id="goal-error" class="error" hidden><svg class="ic" aria-hidden="true"><use href="assets/icons.svg#i-alert"/></svg>Enter an amount, like "2 crore" or "50 lakh".</p>
+              <div id="goal-result" role="status"></div>
+            </div>
+          </div>
 
           <div class="res-right">
             <div class="card summary-card">
@@ -671,12 +695,12 @@
     </div>
   </footer>
 
-  <script src="data.js?v=20261101g"></script>
-  <script src="engine.js?v=20261101g"></script>
-  <script src="community.js?v=20261101g"></script>
-  <script src="facts.js?v=20261101g"></script>
-  <script src="app.js?v=20261101g"></script>
-  <script src="motion.js?v=20261101g"></script>
+  <script src="data.js?v=20261105b"></script>
+  <script src="engine.js?v=20261105b"></script>
+  <script src="community.js?v=20261105b"></script>
+  <script src="facts.js?v=20261105b"></script>
+  <script src="app.js?v=20261105b"></script>
+  <script src="motion.js?v=20261105b"></script>
   <dialog class="ios-dialog" id="ios-dialog" aria-labelledby="ios-title">
     <h2 id="ios-title">Add it to your home screen</h2>
     <ol>

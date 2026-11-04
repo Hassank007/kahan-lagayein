@@ -277,13 +277,31 @@
     })
   );
 
+  // Time slider: evenly spaced stops, closer together in the early years where the plan changes most.
+  const HORIZONS = [0.5, 1, 2, 3, 4, 5, 7, 10, 15, 20];
+  const horizonInput = $("#horizon");
+  const timeLabel = (h) => (h < 1 ? "Within a year" : `In ${h} year${h === 1 ? "" : "s"}`);
+  function showHorizon() {
+    const text = timeLabel(HORIZONS[+horizonInput.value]);
+    $("#horizon-out").textContent = text;
+    horizonInput.setAttribute("aria-valuetext", text);
+    horizonInput.style.setProperty("--fill", (+horizonInput.value / (HORIZONS.length - 1)) * 100 + "%");
+  }
+  horizonInput.addEventListener("input", showHorizon);
+  showHorizon();
+
+  // Years of the "growth plan" (mostly shares), set from the target card. Changing the form clears it.
+  let growthYears = null;
+  form.addEventListener("input", () => { growthYears = null; });
+  amountInput.addEventListener("input", () => { growthYears = null; });
+
   function readProfile() {
     const fd = new FormData(form);
     return {
       amount: parseAmount(amountInput.value),
-      horizon: parseFloat(fd.get("horizon")),
-      goal: fd.get("goal"),
-      risk: "medium", // the risk question was removed; everyone gets the middle mix
+      horizon: growthYears || HORIZONS[+horizonInput.value],
+      goal: growthYears ? "grow" : fd.get("goal"),
+      risk: growthYears ? "max" : "medium", // the risk question was removed; everyone gets the middle mix unless they ask for growth
       halal: fd.has("halal"),
       filer: fd.has("filer"),
       senior: fd.has("senior"),
@@ -326,7 +344,6 @@
   }
   const MINOR_NOTE = "You are under 18. From age 13 you can open your own bank account or mobile wallet (new SBP rule, April 2026). For shares, a parent or guardian can open a \"minor account\" in your name (allowed since November 2025). For most other options here, a parent or guardian invests for you until you turn 18.";
 
-  const horizonLabel = { 0.5: "within a year", 2: "in 1-3 years", 4: "in 3-5 years", 7: "in 5+ years" };
 
   // Colour by bucket: safe homes in teal tones, growth blue, gold marigold, REIT coral.
   function colorsFor(lines) {
@@ -451,6 +468,102 @@
       </div>`;
   }
 
+  // ---------- "Want it to grow more?" ----------
+  const GOAL_VERDICT = {
+    done: ["pos", "You already have that.", "That is not more than you are putting in today."],
+    safe: ["pos", "Yes, realistic.", "Safe options alone can get you there."],
+    mid: ["pos", "Yes, realistic.", "This plan should get there in average years, but it isn't promised."],
+    high: ["warn", "Only with more in shares.", "It can be done, but your money can also fall a lot on the way."],
+    stretch: ["warn", "Only if the stock market has very good years.", "Don't count on it. Here is what would work better."],
+    no: ["neg", "Not realistic.", "Nothing here reaches that, even in good years."],
+  };
+  let goalPlan = null;
+  function renderGoal() {
+    const want = parseAmount($("#goal-want").value);
+    const years = +$("#goal-years").value;
+    const err = $("#goal-error");
+    const bad = !isFinite(want) || want <= 0;
+    err.hidden = !bad;
+    $("#goal-want").toggleAttribute("aria-invalid", bad);
+    if (bad) { $("#goal-result").innerHTML = ""; return; }
+    const p = goalPlan;
+    const t = Engine.target(p, want, years);
+    const [tone, head, sub] = GOAL_VERDICT[t.level];
+    const yr = (n) => `${n} year${n === 1 ? "" : "s"}`;
+    const ways = !["high", "stretch", "no"].includes(t.level) ? [] : [
+      ["i-clock", "Give it more time", `About ${yr(Math.ceil(t.yearsAtMid))} in the normal plan`],
+      ["i-coins", "Start with more", `About ${rs(t.startWith)} today`],
+      ["i-calendar", "Add money every month", `About ${rs(t.addMonthly)} a month`],
+    ];
+    const canGrow = ways.length && t.canGrow;
+    if (canGrow) {
+      ways.push(["i-trend", "Put most of it in shares", `It could reach about ${words(t.valueMax)} in ${yr(years)} (${pct(t.max.netRate)} a year), but could fall about ${pct(Math.abs(t.max.badYear))} in a very bad year.`]);
+    }
+    $("#goal-result").innerHTML = `<div class="goal-out ${tone}">
+        <p class="goal-verdict"><strong>${head}</strong> ${sub}${t.level === "no" ? ` If anyone promises you this, <a href="#scam">check it for a scam</a>.` : ""}</p>
+        ${t.level === "done" ? "" : `<p>Turning ${words(p.amount)} into ${words(want)} in ${yr(years)} needs <b class="num">${pct(t.needed)}</b> a year after tax. The normal plan grows about <b class="num">${pct(t.mid.netRate)}</b>.</p>`}
+      </div>
+      ${ways.length ? `<h4 class="goal-h">What could help</h4>
+      <ul class="goal-ways">${ways.map(([ic, k, v]) => `<li>${icon(ic)}<span><b>${k}:</b> ${v}</span></li>`).join("")}</ul>
+      ${canGrow ? `<button class="cta small" type="button" id="goal-rearrange" data-years="${years}">Rearrange my plan for more growth</button>`
+        : years < 3 ? `<p class="hint">Shares can fall a lot in a short time, so we don't move money under 3 years into them.</p>`
+        : `<p class="hint">Amounts under Rs 1 lakh stay in simple, safe options.</p>`}` : ""}`;
+  }
+  // New plan: empty target, with the plan's own time picked and "double it" as the example.
+  function startGoal(p, r) {
+    goalPlan = p;
+    const w = $("#goal-want");
+    w.value = "";
+    w.placeholder = "e.g. " + words(p.amount * 2);
+    w.removeAttribute("aria-invalid");
+    $("#goal-years").value = String(Math.max(1, Math.round(r.years)));
+    $("#goal-words").textContent = "";
+    $("#goal-error").hidden = true;
+    $("#goal-result").innerHTML = "";
+  }
+  function showGoalWords() {
+    const n = parseAmount($("#goal-want").value);
+    $("#goal-words").textContent = isFinite(n) && n > 0 ? words(n) : "";
+  }
+  $("#goal-want").addEventListener("input", showGoalWords);
+  $("#goal-want").addEventListener("blur", () => {
+    const n = parseAmount($("#goal-want").value);
+    if (isFinite(n) && n > 0) $("#goal-want").value = grouped(n);
+  });
+  $("#goal-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    renderGoal();
+    if (!$("#goal-error").hidden) { $("#goal-want").focus(); return; }
+    // A phone keyboard would cover the answer, so close it first.
+    if (matchMedia("(pointer: coarse)").matches) $("#goal-want").blur();
+    // Bring the answer into view, but don't move the page if it's already all on screen.
+    requestAnimationFrame(() => {
+      const out = $("#goal-result");
+      const box = out.getBoundingClientRect();
+      if (box.top < $("#top").offsetHeight || box.bottom > innerHeight) out.scrollIntoView({ block: "start" });
+    });
+  });
+  $("#goal-result").addEventListener("click", (e) => {
+    const b = e.target.closest("#goal-rearrange");
+    if (!b) return;
+    growthYears = +b.dataset.years;
+    form.requestSubmit();
+  });
+  $("#growth-note").addEventListener("click", (e) => {
+    if (!e.target.closest("#growth-back")) return;
+    growthYears = null;
+    form.requestSubmit();
+  });
+  // Shown on top of a growth plan: what changed, how it compares, and the way back.
+  function growthNote(p, r) {
+    const note = $("#growth-note");
+    note.hidden = !growthYears;
+    if (!growthYears) { note.innerHTML = ""; return; }
+    const normal = Engine.plan({ ...p, risk: "medium" });
+    note.innerHTML = `<p>${icon("i-alert")}<span><strong>This is your growth plan.</strong> You asked for more growth, so most of your money now goes into shares. It could reach about <b class="num">${words(r.futureValue)}</b> in ${r.years} years, compared with ${words(normal.futureValue)} in the normal plan. In a very bad year it could fall about <b class="num">${pct(Math.abs(r.badYear))}</b> (about ${words(Math.abs((p.amount * r.badYear) / 100))}), and it can take years to come back. Only use money you won't need soon.</span></p>
+      <button type="button" class="link-btn" id="growth-back">Back to the normal plan</button>`;
+  }
+
   // ---------- how to start, freshness ----------
   function howLink(o) {
     const l = window.OFFICIAL[window.OPTION_LINK[o.id]];
@@ -470,6 +583,7 @@
   function encodePlan(p) {
     const q = new URLSearchParams({ a: Math.round(p.amount), h: p.horizon, g: p.goal });
     Object.entries(FLAGS).forEach(([k, v]) => q.set(v, p[k] ? 1 : 0));
+    if (growthYears) q.set("gy", growthYears);
     if (p.overseas) q.set("c", p.currency);
     return q.toString();
   }
@@ -479,7 +593,14 @@
     const a = +q.get("a");
     if (!(a >= 10000 && a <= 1e10)) return false;
     amountInput.value = grouped(a);
-    [["horizon", q.get("h")], ["goal", q.get("g")]].forEach(([name, v]) => {
+    const gy = +q.get("gy");
+    growthYears = gy >= 3 && gy <= 20 ? gy : null;
+    const h = +q.get("h");
+    if (h > 0) { // nearest stop, so older links still open
+      horizonInput.value = HORIZONS.reduce((best, x, i) => (Math.abs(x - h) < Math.abs(HORIZONS[best] - h) ? i : best), 0);
+      showHorizon();
+    }
+    [["goal", q.get("g")]].forEach(([name, v]) => {
       const el = form.querySelector(`input[name="${name}"][value="${CSS.escape(v || "")}"]`);
       if (el) el.checked = true;
     });
@@ -555,7 +676,7 @@
     const colors = colorsFor(r.lines);
 
     $("#results-sub").textContent =
-      `${rs(p.amount)} (${words(p.amount)}), needed ${horizonLabel[p.horizon]}, ${p.filer ? "filer" : "non-filer"}${p.halal ? ", halal only" : ""}. ` +
+      `${rs(p.amount)} (${words(p.amount)}), needed ${timeLabel(p.horizon).toLowerCase()}, ${p.filer ? "filer" : "non-filer"}${p.halal ? ", halal only" : ""}. ` +
       `We assume prices rise ${pct(r.cpi)} a year (${p.horizon > 2 ? "Pakistan's 25-year average" : "the latest number"}). Anything growing slower than that is losing value.`;
 
     $("#statement").innerHTML =
@@ -674,6 +795,8 @@
     renderPosts($("#matched-posts"), matched, "h4");
 
     $("#fresh").innerHTML = freshLine();
+    growthNote(p, r);
+    startGoal(p, r);
     setShare(p, r);
     savePlan(p, r);
 

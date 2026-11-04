@@ -149,5 +149,31 @@
     };
   }
 
-  window.Engine = { plan, afterTaxRate, grossRate };
+  // Reverse question: "I want this amount to become X in Y years." Compares the yearly growth
+  // that needs with what the safe, middle and share-heavy mixes can do. Never promises a result.
+  function target(p, want, years) {
+    const horizon = years <= 1 ? 0.5 : years <= 3 ? 2 : years <= 5 ? 4 : 7;
+    const mix = (risk) => plan({ ...p, horizon, risk, goal: "grow" });
+    const safe = mix("low"), mid = mix("medium"), max = mix("max");
+    const needed = (Math.pow(want / p.amount, 1 / years) - 1) * 100;
+    const r = mid.netRate / 100;
+    const i = Math.pow(1 + r, 1 / 12) - 1;
+    const n = years * 12;
+    const lumpEnd = p.amount * Math.pow(1 + r, years);
+    const level = want <= p.amount ? "done"
+      : needed <= safe.netRate ? "safe"
+      : needed <= mid.netRate ? "mid"
+      : needed <= max.netRate ? "high"
+      : needed <= max.netHigh ? "stretch" : "no";
+    return {
+      level, needed, safe, mid, max,
+      canGrow: years >= 3 && p.amount >= 100000, // shorter or smaller plans stay out of shares
+      yearsAtMid: Math.log(want / p.amount) / Math.log(1 + r),
+      startWith: want / Math.pow(1 + r, years),
+      addMonthly: (want - lumpEnd) * i / (Math.pow(1 + i, n) - 1),
+      valueMax: p.amount * Math.pow(1 + max.netRate / 100, years),
+    };
+  }
+
+  window.Engine = { plan, afterTaxRate, grossRate, target };
 })();

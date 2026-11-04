@@ -223,6 +223,7 @@ window.BUCKET_WEIGHTS = {
   low:    { safe: 85, growth: 5,  gold: 10, reit: 0 },
   medium: { safe: 60, growth: 25, gold: 10, reit: 5 },
   high:   { safe: 30, growth: 55, gold: 10, reit: 5 },
+  max:    { safe: 0,  growth: 85, gold: 10, reit: 5 }, // "growth plan": only when someone asks for it
 };
 
 // Overseas mode: PKR per unit of each currency. AED and SAR are pegged to the dollar
